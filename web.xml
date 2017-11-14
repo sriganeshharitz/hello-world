@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>StudentEvaluationModule</display-name>
+  
+  <context-param>
+		<param-name>org.apache.tiles.impl.BasicTilesContainer.DEFINITIONS_CONFIG</param-name>
+		<param-value>/WEB-INF/tiles.xml</param-value>
+  </context-param>
+	 
+	<filter>
+    	<filter-name>ResponseOverrideFilter</filter-name>
+		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+  </filter>
+	
+  <filter>
+    <filter-name>struts2</filter-name>
+    <filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>ResponseOverrideFilter</filter-name>
+    <url-pattern>*.action</url-pattern>
+  </filter-mapping> 
+   
+  <filter-mapping>
+    <filter-name>ResponseOverrideFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping> 
+  
+ <filter-mapping>
+    <filter-name>struts2</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <session-config>
+    <session-timeout>180</session-timeout>
+  </session-config>
+  
+  <listener>
+    <listener-class>com.uttara.sem.listeners.SqlMapClientLoader</listener-class>
+  </listener>
+  
+  <listener>
+		<listener-class>org.apache.struts2.tiles.StrutsTilesListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.uttara.sem.listeners.StudEvalServletContextListener</listener-class>
+	</listener>
+	
+	<listener>
+	    <listener-class>com.uttara.sem.listeners.JedisPoolInitializer</listener-class>
+	</listener>
+	
+<!--	<listener>-->
+<!--		<listener-class>com.uttara.sem.listeners.JavaVideoServletContextListener</listener-class>-->
+<!--	</listener>-->
+  
+  
+   <context-param>
+		<param-name>logAsSOP</param-name>
+		<param-value >false</param-value>
+	</context-param>
+	
+    <context-param>
+		<param-name>doLog</param-name>
+		<param-value >true</param-value>
+	</context-param>
+	
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <jsp-config>
+   <taglib>
+      <taglib-uri>http://displaytag.sf.net/<!-- http://displaytag.sourceforge.net/ --></taglib-uri>
+        <taglib-location>/WEB-INF/displaytag.tld</taglib-location>
+   </taglib>
+</jsp-config> 
+   
+</web-app>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">    
+
+<sqlMap namespace="login-ibatis">
+	
+	<typeAlias alias="userInfo" type="com.uttara.sem.model.pojo.UserLoginBean"/>
+	
+	<select id="checkUser" parameterClass="userInfo" resultClass="userInfo">
+		<!-- select 
+				SLNO as slno,
+				EMAIL_ID as emailId, 
+				PASSWD as password, BATCH_NO as batchNo,
+				FIRST_NAME as firstName, 
+				LAST_NAME as lastName, 
+				ROLE as role,STATUS as status,
+				COURSE_NAME as courseName,
+				UTTARA_ID as uttaraId,
+				SPECIAL_STUDENT as specialStudent
+		from UTTARA_USER_MAST 
+		where LOWER(LOGIN_NAME) = LOWER(#loginName#) -->
+		<!-- adding select statement from uttara abc sg -->
+		SELECT b.slno, b.first_name as firstName, b.last_name as lastName, b.login_name as loginName,
+            b.email_id as emailId, b.passwd as password, b.role as role, b.status as status,
+            b.address as address, b.mobile as mobile, b.passed_out_year as passedOutYear,
+            b.uttara_Id as uttaraId, b.course_name as courseName,b.MAILID_CHECK as randomNum,
+            b.aggregate as aggregate,b.batch_no as batchNo,b.batch_id as batchId,  
+            b.education as education, b.specialization as specialization, 
+            b.about_uttara as aboutUttara, b.no_of_years as noOfYears, b.cm_date as cm_Date,
+            b.college as college, b.diploma_aggr as diplomaAggr,gender as gender,
+            b.special_student as specialStudent
+			FROM uttara_user_mast b 
+			WHERE LOWER(b.login_name) = LOWER(#loginName#)	
+	</select>
+	<insert id="insertIpAddr"  parameterClass="userInfo"  >	
+		<selectKey resultClass="int" keyProperty="slno" type="pre">
+			 select UttaraPortal.nextval as slno from dual
+		</selectKey> 
+		
+	  insert into uttara_ip_log (
+			SLNO,EMAIL_ID,ip_addr,ip_date)
+     
+     values( #slno#,#emailId#,#ipAddr#,(CURRENT_TIMESTAMP))	
+	
+	</insert>
+</sqlMap>
